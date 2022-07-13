@@ -109,7 +109,7 @@ IPv6 addresses are customarily written in eight blocks of four hexadecimal digit
 FEDC:BA98:7654:3210:FEDC:BA98:7654:3210. Leading zeros do not need to be written. A double colon indicates multiple zero blocks.
 For example FEDC::DC:0:7076:10 is equivalent to FEDC:0000:0000:0000:00DC:0000:7076:0000.
 
-The Domain Name System (DNS) was developed to translate hostnames that humans can remember, such as "www.oreilly.com" into numeric
+The Domain Name System (DNS) was developed to translate hostnames that humans can remember, such as `www.oreilly.com` into numeric
 Internet addresses such as 208.201.239.101.
 
 IP addresses may change over time, so we should not write code that relies on a system having the same IP address.
@@ -124,4 +124,51 @@ always refers to the originating host, but may only be used as a source address,
 
 The IPv4 address that uses the same number for each of the 4 bytes (i.e., 255.255.255.255) is a broadcast address. Packets sent to this address
 are received by all nodes on the local network, though they are not routed beyond the local network.
+
+Each computer with an IP address has several thousand logical ports (65,535 per transport layer protocol). These are purely
+abstractions in the computer's memory and do not represent anything physical. Each port can be allocated to a particular service.
+
+We say that a web server _listens_ on port XYZ (i.e., port 80) for incoming connections.
+
+The _Internet_ is the world's largest IP-based network. It is an amorphous group of computers in different countries on all
+seven continents (Antarctica included) that talk to one another using IP protocols. Each computer on the Internet has at least one
+IP address by which it can be identified. The Internet is not owned by anyone, although pieces of it are. It is not governed by anyone.
+It is simply a very large collection of computers that have agreed to talk to one another in a standard way.
+
+The most important rules on the Internet deal with the assignment of addresses to different organizations, companies and individuals.
+If everyone picked the Internet addresses they wanted at random, conflicts would arise almost immediately when different computers showed
+up on the Internet with the same address.
+
+Most networks today use Network Address Translation (NAT). In NAT-based networks most nodes only have local, non-routable addresses
+selected from either 10.x.x.x, 172.16.x.x to 172.31.x.x or 192.168.x.x. The routers that connect the local networks to the ISP
+translate these local addresses to a much smaller set of routable addresses.
+
+For instance, the dozen or so IP nodes in my apartment all share a single externally visible IP address. The router watches my
+outgoing and incoming connections and adjusts the addresses in IP packets. For an outgoing packet, it changes the source address to the
+router's external address. For an incoming packet, it changes the destination address to one of the local addresses. It is important
+to remember that the external and internal addresses may not be the same.
+
+The hardware and software that sit between the Internet (global) and the local network (local), checking all the data that comes
+in or out to make sure it's kosher, is called a _firewall_. The firewall is often part of the router that connects the local network
+to the broader Internet and may perform other tasks, such as network address translation. It is responsible for inspecting each packet
+that passes into or out of its network interface and accepting it or rejecting it according to set of rules.
+
+Most modern network programming is based on a client/server model. A client/server application typically stores large quantities of data
+on an expensive, high-powered server or cloud of servers while most of the program logic and the user interface is handled by client software running on relatively cheap 
+personal computers. In most cases, a server primarily sends data while a client primarily receives it.
+
+A more reliable distinction is that a client initiates a conversation while a server waits for clients to start conversations with it.
+
+Data is stored on the web server and is sent out to the clients that request it. Aside from the initial request for a page, almost
+all data is transferred from the server to the client, not from the client to the server.
+
+Not all applications fit easily into a client/server model. For instance, in networked games, it seems likely that both players
+will send data back and forth roughly equally. These sorts of connections are called _peer to peer_. The telephone system is the class example
+of a peer-to-peer network. Each phone can either call another phone or be called by another phone. You don't have to buy one phone
+to send calls and another to receive them.
+
+Java does not have explicit peer-to-peer communication in its core networking API.
+
+---
+## Chapter 2 :: Streams
 
