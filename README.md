@@ -36,7 +36,7 @@ analog signals, detect and correct errors, route packets from one host to anothe
 There are several layer models, each organized to fit the needs of a particular kind of network. This book uses the standard TCP/IP
 four-layer model appropriate for the Internet. In this model, applications like Firefox and Warcraft run in the application layer and
 talk only to the transport layer (TCP or UDP). The transport layer talks only to the application layer and the Internet layer (IP). The Internet
-layer in turn talks only to the host-to-network layer and the transport layer, never directly to the application layer.
+layer in turn talks only to the host-to-network (Ethernet, WiFi, LTE) layer and the transport layer, never directly to the application layer.
 
 The host-to-network layer moves the data across the wires, fiber-optic cables, or other medium to the host-to-network layer on the
 remote system, which then moves the data up the layers to the application on the remote system.
@@ -56,4 +56,31 @@ layer has received enough contiguous, sequential datagrams, it reassembles them 
 application layer.
 
 The server responds to the request and sends its response back down through the layers on the server system for transmission back
-across the Internet and delivery to the web client.
+across the Internet and delivery to the web client. Generally speaking, we live in the application (90% of the time) and transport layer (10% of the time).
+The complexity of the host-to-network layer is hidden from us; that's the point of the layer model.
+
+To the application layer, it seems as if it is talking directly to the application layer on the other system; the network
+creates a logical path between the two application layers.
+
+The host-to-network layer defines how a particular network interface - such as an Ethernet card or a WiFi antenna - sends IP 
+datagrams over its physical connection to the local network and the world.
+
+The primary reason a Java developer needs to think about the host-to-network and physical layer is performance. For instance,
+if your clients reside on fast, reliable fiber-optic connections, you will design your protocol and applications differently than
+if they're on high-latency satellite connections on an oil rig in the North Sea. Whichever physical links we encounter, the APIs
+we use to communicate across those networks are the same. What makes that possible is the internet layer.
+
+The internet layer is made up of two protocols: IPv4 (32 bit addresses) and IPv6 (128 bit addresses). Although these are two very
+different network protocols that do not interoperate on the same network without special gateways and/or tunneling protocols, Java
+hides almost all the differences from you.
+
+Besides, routing and addressing, the second purpose of the Internet layer is to enable different types of host-to-network layers to talk to 
+each other. 
+
+The transport layer is responsible for ensuring that packets are received in the order they were sent and that no data is lost or corrupted.
+If a packet is lost, the transport layer can ask the sender to retransmit the packet.
+
+There are two primary protocols at this level. The first, the Transmission Control Protocol (TCP) is a high-overhead protocol
+that allows for retransmission of lost or corrupted data and delivery of bytes in the order they were sent. The second protocol,
+The User Datagram Protocol (UDP), allows the receiver to detect corrupted packets but does not guarantee that packets are delivered
+in the correct order (or at all).
