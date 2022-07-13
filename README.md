@@ -22,3 +22,38 @@ the addresses that an organization is allowed to choose for its computers are as
 ISPs get their IP addresses from one of four regional Internet registries, which are in turn assigned IP addresses by the
 Internet Corporation for Assigned Names and Numbers (ICANN).
 
+All modern computer networks are _packet-switched_ networks: data traveling on the network is broken into chunks called 
+_packets_ and each packet is handled separately. Each packet contains information about who sent it and where it's going.
+Checksums can be used to detect whether a packet was damaged in transit.
+
+A _protocol_ is a precise set of rules defining how computers communicate: the format of address, how data is split into packets, 
+and so on. The Hypertext Transfer Protocol (HTTP) defines how web browsers and servers communicate. The IEEE 802.3 standard
+defines a protocol for how bits are encoded as electrical signals on a particular type of wire.
+
+Software that sends data across a network must understand how to avoid collisions between packets, convert digital data to 
+analog signals, detect and correct errors, route packets from one host to another, and more.
+
+There are several layer models, each organized to fit the needs of a particular kind of network. This book uses the standard TCP/IP
+four-layer model appropriate for the Internet. In this model, applications like Firefox and Warcraft run in the application layer and
+talk only to the transport layer (TCP or UDP). The transport layer talks only to the application layer and the Internet layer (IP). The Internet
+layer in turn talks only to the host-to-network layer and the transport layer, never directly to the application layer.
+
+The host-to-network layer moves the data across the wires, fiber-optic cables, or other medium to the host-to-network layer on the
+remote system, which then moves the data up the layers to the application on the remote system.
+
+For example, when a web browser sends a request to a web server to retrieve a page, the browser is actually talking to the
+transport layer on the local client machine. The transport layer breaks the request into TCP segments, adds some sequence numbers
+and checksums to the data, and then passes the request to the local internet layer. The Internet layer fragments the segments
+into IP datagrams of the necessary size for the local network and passes them to the host-to-network layer for transmission onto
+the wire. The host-to-network layer encodes the digital data as analog signals appropriate for the particular physical medium
+and sends the request out the wire where it will be read by the host-to-network layer of the remote system to which it's addressed
+
+The host-to-network layer on the remote system decodes the analog signals into digital data, then passes the resulting IP datagrams to the server's
+Internet layer. The Internet layer does some simple checks to see that the IP datagrams aren't corrupt, reassembles
+them if they've been fragmented, and passes them to the server's transport layer. The server's transport layer
+checks to see that all the data arrived and requests retransmission of any missing or corrupt pieces. Once the server's transport
+layer has received enough contiguous, sequential datagrams, it reassembles them and writes them onto a stream read by the web server running in the server
+application layer.
+
+The server responds to the request and sends its response back down through the layers on the server system for transmission back
+across the Internet and delivery to the web client.
