@@ -93,3 +93,35 @@ a graphic image as a picture, not a long stream of numbers. There is an entire a
 in addition to HTTP for the Web, there are SMTP, POP, and IMAP for email; FTP, FSP and TFTP for file transfer; NFS for file access;
 Gnutella and BitTorrent for file sharing; the Session Initiation Protocol (SIP) and Skype for voice communication.
 
+IP (Internet protocol) was developed with military sponsorship during the Cold War, and ended up with a lot of features that
+the military was interested in. IP was designed to allow multiple routes between any two points and to route packets of data around
+damaged routers - the entire network couldn't stop functioning if the Soviets nuked a router in Cleveland. The military also needed
+to have many kinds of computers be able to talk to each other.
+
+Every computer on an IPv4 network is identified by a 4 byte number. This is normally written in a _dotted quad_ format like 199.1.32.90,
+where each of the 4 numbers is one unsigned byte ranging in value from 0 to 255. 
+
+When data is transmitted across the network, the packet's
+header includes the address of the machine for which the packet is intended (the destination address) and the address of
+the machine that sent the packet (the source address).
+
+IPv6 addresses are customarily written in eight blocks of four hexadecimal digits separated by colons such as
+FEDC:BA98:7654:3210:FEDC:BA98:7654:3210. Leading zeros do not need to be written. A double colon indicates multiple zero blocks.
+For example FEDC::DC:0:7076:10 is equivalent to FEDC:0000:0000:0000:00DC:0000:7076:0000.
+
+The Domain Name System (DNS) was developed to translate hostnames that humans can remember, such as "www.oreilly.com" into numeric
+Internet addresses such as 208.201.239.101.
+
+IP addresses may change over time, so we should not write code that relies on a system having the same IP address.
+
+Several address blocks and patterns are special. All IPv4 addresses that begin with 10., 172.16, 172.31 and 192.168 are unassigned.
+They can be used on internal networks, but no host using addresses in these blocks is allowed onto the global Internet.
+These _non-routable_ addresses are useful for building private networks that can't be seen on the Internet.
+
+IPv4 addresses beginning with 127 (most commonly 127.0.0.1 aka localhost) always mean _local loopback address_. These addresses always point
+to the local computer, no matter which computer you're running on. In IPv6, 0:0:0:0:0:0:0:1 is the loopback address. The address 0.0.0.0
+always refers to the originating host, but may only be used as a source address, not a destination.
+
+The IPv4 address that uses the same number for each of the 4 bytes (i.e., 255.255.255.255) is a broadcast address. Packets sent to this address
+are received by all nodes on the local network, though they are not routed beyond the local network.
+
