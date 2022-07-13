@@ -84,3 +84,12 @@ There are two primary protocols at this level. The first, the Transmission Contr
 that allows for retransmission of lost or corrupted data and delivery of bytes in the order they were sent. The second protocol,
 The User Datagram Protocol (UDP), allows the receiver to detect corrupted packets but does not guarantee that packets are delivered
 in the correct order (or at all).
+
+UDP is often much faster than TCP. TCP is called a _reliable_ protocol; UDP is an _unreliable_ protocol.
+
+The layer that delivers data to the user is called the _application layer_. The application layer decides what to do with the 
+data after it's transferred. For example, an application protocol like HTTP (for the WWW) makes sure that your web browser displays
+a graphic image as a picture, not a long stream of numbers. There is an entire alphabet soup of application layer protocols:
+in addition to HTTP for the Web, there are SMTP, POP, and IMAP for email; FTP, FSP and TFTP for file transfer; NFS for file access;
+Gnutella and BitTorrent for file sharing; the Session Initiation Protocol (SIP) and Skype for voice communication.
+
