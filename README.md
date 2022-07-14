@@ -172,3 +172,59 @@ Java does not have explicit peer-to-peer communication in its core networking AP
 ---
 ## Chapter 2 :: Streams
 
+I/O in Java is built on _streams_. Input streams read data. Output streams write data. All output streams have the same basic
+methods to write data and all input streams use the same basic methods to read data. After a stream is created, you can often ignore
+the details of exactly what it is you're reading or writing.
+
+Filter streams can be chained to either an input stream or an output stream. Filters can modify the data as it's read or written -
+for instance, by encrypting or compressing it - or they can simply provide additional methods for converting the data that's read
+or written into other formats.
+
+Streams are synchronous; that is, when a program (really a thread) asks a stream to read or write a piece of data, it waits 
+for the data to be read or written before it does anything else.
+
+Java's basic output clas is `java.io.OutputStream`. The class provides the fundamental methods needed to write data:
+* `public abstract void write(int b) throws IOException`
+* `public void write(byte[] data) throws IOException`
+* `public void write(byte[] data, int offset, int length) throws IOException`
+* `public void flush() throws IOException`
+* `public void close() throws IOException`
+
+Subclasses of `OutputStream` use these methods to write data onto particular media. `FileOutputStream` uses these methods to write
+data into a file. A `TelnetOutputStream` uses these methods to write data onto a network connection. A `ByteArrayOutputStream`
+uses these methods to write data into an expandable byte array.
+
+Streams can also be buffered in software. This is accomplished by chaining `BufferedOutputStream` or a `BufferedWriter` to the
+underlying stream. Consequently, if you are done writing data, it's important to flush the output stream.
+For example, suppose you've written a 300byte request to an HTTP 1.1 server that uses HTTP Keep-Alive. You generally want to wait
+for a response before sending any more data. However, if the output stream has a 1,024 byte buffer, the stream may be waiting for more
+data to arrive before it sends the data out of its buffer. No more data will be written onto the stream until the server response
+arrives, but the response is never going to arrive because the request hasn't been sent yet!
+
+The `flush()` method breaks the deadlock by forcing the buffered stream to send its data even if the buffer isn't yet full.
+It's important to flush your stream whether you think you need to or not. You should flush all streams immediately before you close them.
+Otherwise, data left in the buffer when the stream is closed may get lost.
+
+Finally, when you're done with a stream, close it by invoking its `close()` method. THis releases any resources associated with the stream, such
+as file handles or ports.
+
+This technique is sometimes called the _dispose pattern_:
+
+```
+// the dispose pattern
+OutputStream out = null;
+try {
+    out = new FileOutputStream("/tmp/data.txt");
+} catch (IOException ie) {
+    System.err.println(ie.getMessage());
+} finally {
+    if (out != null) {
+        try {
+            out.close();
+        } catch (IOException ie) {
+            // do nothing
+        }
+    }
+}
+```
+
