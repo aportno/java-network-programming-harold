@@ -212,19 +212,25 @@ This technique is sometimes called the _dispose pattern_:
 
 ```
 // the dispose pattern
-OutputStream out = null;
-try {
-    out = new FileOutputStream("/tmp/data.txt");
+try (OutputStream out = new FileOutputStream("tmp/data.txt")) {
 } catch (IOException ie) {
     System.err.println(ie.getMessage());
-} finally {
-    if (out != null) {
-        try {
-            out.close();
-        } catch (IOException ie) {
-            // do nothing
-        }
-    }
 }
 ```
+
+Java automatically invokes `close()` on any `AutoCloseable` objects declared inside the argument list of
+the try block.
+
+Java's basic input clas is `java.io.InputStream`. The class provides the fundamental methods needed to read data:
+* `public abstract int read(int b) throws IOException`
+* `public int read(byte[] input) throws IOException`
+* `public int read(byte[] input, int offset, int length) throws IOException`
+* `public long skip(long n) throws IOException`
+* `public int available() throws IOException`
+* `public void close() throws IOException`
+
+The `DataInputStream` and `DataOutputStream` classes provide methods for reading and writing Java's primitive data types
+and strings in a binary format. The binary formats used are primarily intended for exchanging data between two different
+Java programs through a network connection, a datafile, a pipe, or some other intermediary. What a data output stream writes,
+a data input stream can read.
 
