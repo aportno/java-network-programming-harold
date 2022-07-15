@@ -234,3 +234,19 @@ and strings in a binary format. The binary formats used are primarily intended f
 Java programs through a network connection, a datafile, a pipe, or some other intermediary. What a data output stream writes,
 a data input stream can read.
 
+___
+
+## Chapter 3 :: Threads
+
+ A _thread_ (small "t") is a separate, independent path of execution in the virtual machine. A `Thread` (big "t") is an instance of
+ `java.lang.Thread` class. There is a one-to-one relationship between threads executing in the VM and `Thread` objects constructed
+ by the VM.
+ 
+To start a new thread running in the virtual machine, you construct an instance of the `Thread` class and invoke its `start()`
+method:
+
+```
+Thread t = new Thread();
+t.start();
+```
+
