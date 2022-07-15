@@ -250,3 +250,10 @@ Thread t = new Thread();
 t.start();
 ```
 
+To give a thread something to do, you either subclass the `Thread` class and override its `run()` method, or implement the `Runnable`
+interface and pass the `Runnable` object to the `Thread` constructor.
+
+You put all the work the thread does in `public void run()`. The thread starts here and stops here. When the `run()` method
+completes, the thread dies. In essence, the `run()` method is to a thread what the `main()` method is to a traditional non-threaded
+program.
+
